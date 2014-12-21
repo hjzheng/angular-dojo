@@ -31,7 +31,7 @@ angular.module('angular-dojo', [])
 			dojoConfig: "="
 		}, 
 		controller: function($scope, $element, $attrs, $transclude){
-			require(["dijit/form/button"], function(Button){
+			require(["dijit/form/Button"], function(Button){
 				new Button($scope.dojoConfig, $element[0]).startup();
 			}); 
 		}
