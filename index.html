@@ -1,94 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>angular-dojo test</title>
-	<link rel="stylesheet" href="bower_components/dijit/themes/claro/claro.css">
-	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
-	<script type="text/javascript">
-       dojoConfig = {
+    <meta charset="UTF-8">
+    <title>angular-dojo test</title>
+    <link rel="stylesheet" href="bower_components/dijit/themes/claro/claro.css">
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript">
+        dojoConfig = {
             async: true,
             tlmSibingOfDojo: false,
             parseOnLoad: false,
             baseUrl: "./bower_components",
-            packages: [  
-                    {name: "dojo", location: "./dojo"},
-                    {name: "dijit", location: "./dijit"}
+            packages: [
+                {name: "dojo", location: "./dojo"},
+                {name: "dijit", location: "./dijit"}
             ]
-        };		
-	</script>
-	<script type="text/javascript" src="bower_components/dojo/dojo.js"></script>
-	<script type="text/javascript" src="./angular-dojo.js"></script>
+        };
+    </script>
+    <script type="text/javascript" src="bower_components/dojo/dojo.js"></script>
+    <script type="text/javascript" src="./angular-dojo.js"></script>
 </head>
 <body class="claro" ng-app="myApp">
-	<h1>angular-dojo test page</h1>
-	<h2>test dojo-parser directive</h2>
-	<div ng-controller="myController">
-		<button dojo-parser type="button" data-dojo-type="dijit/form/Button">
-		    Click Me!
-		    <script type="dojo/on" data-dojo-event="click">
+<h1>angular-dojo test page</h1>
+<h2>test dojo-parser directive</h2>
+<div ng-controller="myController">
+    <button dojo-parser type="button" data-dojo-type="dijit/form/Button">
+        Click Me!
+        <script type="dojo/on" data-dojo-event="click">
 		        console.log("I was clicked!");
 		    </script>
-		</button>
-		<select dojo-parser data-dojo-type="dijit/form/ComboBox" name="fruit">
-		    <option>Apples</option>
-		    <option selected>Oranges</option>
-		    <option>Pears</option>
-		</select>
-		<button ng-click="click()">click</button>
-	</div>
-	<h2>test angular dijit UI widget directive</h2>
-	<div ng-controller="dojoController">
-		<dojo-button dojo-config="buttonConfig"></dojo-button>
-		<dojo-number-spinner dojo-config="numberSpinnerConfig"></dojo-number-spinner>
-		<dojo-menu-button dojo-config="menuButtonConfig"></dojo-menu-button>
-	</div>
-	
+    </button>
+    <select dojo-parser data-dojo-type="dijit/form/ComboBox" name="fruit">
+        <option>Apples</option>
+        <option selected>Oranges</option>
+        <option>Pears</option>
+    </select>
+    <button ng-click="click()">click</button>
+</div>
+<h2>test angular dijit UI widget directive</h2>
+<div ng-controller="dojoController">
+    <dojo-button dojo-config="buttonConfig"></dojo-button>
+    <dojo-number-spinner dojo-config="numberSpinnerConfig"></dojo-number-spinner>
+    <dojo-menu-button dojo-config="menuButtonConfig"></dojo-menu-button>
+    <dojo-progress-bar dojo-config="progressBarConfig" after-init="progressBarAfterInit">
+    </dojo-progress-bar>
+</div>
+
 </body>
 <script type="text/javascript">
-	angular.module('myApp', ['angular-dojo'])
-	.controller('myController', ['$scope', function($scope){
-		$scope.click = function(){
-			console.log($scope.dojoInstances);
-		}
-	}])
-	.controller('dojoController', ['$scope', function($scope){
-		$scope.buttonConfig = {
-	        label: "Click me!",
-	        onClick: function(){
-	            console.log("Click me!");
-	        }
-    	};
+    angular.module('myApp', ['angular-dojo'])
+            .controller('myController', ['$scope', function($scope){
+                $scope.click = function(){
+                    console.log($scope.dojoInstances);
+                }
+            }])
+            .controller('dojoController', ['$scope', function($scope){
+                $scope.buttonConfig = {
+                    label: "Click me!",
+                    onClick: function(){
+                        console.log("Click me!");
+                    }
+                };
 
-		$scope.numberSpinnerConfig = {
-	        value: 1000,
-	        smallDelta: 10,
-	        constraints: { min:9, max:1550, places:0 },
-	        style: "width:100px"
-    	};
+                $scope.numberSpinnerConfig = {
+                    value: 1000,
+                    smallDelta: 10,
+                    constraints: { min:9, max:1550, places:0 },
+                    style: "width:100px"
+                };
 
-        $scope.menuButtonConfig = {
-        	dropDownButton: { 
-    			label: "hello!",
-        		name: "programmatic"
-    	    },
-    	    dropDownMenu: {
-    			style: "display:none;"
-    	    },
-    	    menuItems: [
-					{
-			    		label: "Cut",
-			        	iconClass:"dijitEditorIcon dijitEditorIconCut",
-			        	onClick: function(){ alert('cut'); }
-			    	},
-			    	{
-			    	 	label: "Save",
-			        	iconClass:"dijitEditorIcon dijitEditorIconSave",
-			        	onClick: function(){ alert('save'); }
-			    	}
-			]
-        };
-	}])
+                $scope.menuButtonConfig = {
+                    dropDownButton: {
+                        label: "hello!",
+                        name: "programmatic"
+                    },
+                    dropDownMenu: {
+                        style: "display:none;"
+                    },
+                    menuItems: [
+                        {
+                            label: "Cut",
+                            iconClass:"dijitEditorIcon dijitEditorIconCut",
+                            onClick: function(){ alert('cut'); }
+                        },
+                        {
+                            label: "Save",
+                            iconClass:"dijitEditorIcon dijitEditorIconSave",
+                            onClick: function(){ alert('save'); }
+                        }
+                    ]
+                };
+
+                $scope.progressBarConfig = {
+                    style: "width: 300px"
+                };
+
+                $scope.progressBarAfterInit = function(){
+                    var i = 0;
+                    var _this = this
+                    setInterval(function(){
+                        if(i>100) i=0;
+                        _this.set("value", i++ % 100);
+                    }, 100);
+                };
+
+            }]);
 </script>
 </html>
