@@ -1,8 +1,19 @@
 /**
  * angular-dojo Module
  */
-angular.module('angular-dojo', [])
-    .directive("dojoParser", function(){
+
+angular.module('angular-dojo', []).service('instanceInit', function(){
+        return {
+            afterInit: function(afterInit, instance){
+                if(afterInit()){
+                    angular.bind(instance, afterInit())();
+                }
+            },
+            beforeInit: function(){
+                //TODO
+            }
+        };
+    }).directive("dojoParser", function(){
         return {
             restrict: 'A',
             scope: false,
@@ -28,11 +39,13 @@ angular.module('angular-dojo', [])
             template: '<div></div>',
             replace: true,
             scope: {
-                dojoConfig: "="
+                dojoConfig: "=",
+                afterInit: "&"
             },
-            controller: function($scope, $element, $attrs, $transclude){
+            controller: function($scope, $element, $attrs, $transclude, instanceInit){
                 require(["dijit/form/Button"], function(Button){
-                    new Button($scope.dojoConfig, $element[0]).startup();
+                    var button = new Button($scope.dojoConfig, $element[0]).startup();
+                    instanceInit.afterInit($scope.afterInit, button);
                 });
             }
         };
@@ -45,14 +58,12 @@ angular.module('angular-dojo', [])
                 dojoConfig: "=",
                 afterInit: "&"
             },
-            controller: function($scope, $element, $attrs, $transclude){
+            controller: function($scope, $element, $attrs, $transclude, instanceInit){
                 require(["dijit/form/NumberSpinner"], function(NumberSpinner){
                     var numberSpinner = new NumberSpinner($scope.dojoConfig, $element[0]);
                     numberSpinner.startup();
 
-                    if($scope.afterInit()){
-                        angular.bind(numberSpinner, $scope.afterInit())();
-                    }
+                    instanceInit.afterInit($scope.afterInit, numberSpinner);
                 });
             }
         };
@@ -66,7 +77,7 @@ angular.module('angular-dojo', [])
                 dojoConfig: "=",
                 afterInit: "&"
             },
-            controller: function($scope, $element, $attrs, $transclude){
+            controller: function($scope, $element, $attrs, $transclude, instanceInit){
                 require(["dijit/form/DropDownButton", "dijit/DropDownMenu", "dijit/MenuItem"],
                     function(DropDownButton, DropDownMenu, MenuItem){
                         var menu = new DropDownMenu($scope.dojoConfig.dropDownMenu);
@@ -79,9 +90,7 @@ angular.module('angular-dojo', [])
                         var button = new DropDownButton($scope.dojoConfig.dropDownButton, $element[0]);
                         button.startup();
 
-                        if($scope.afterInit()){
-                            angular.bind(button, $scope.afterInit())();
-                        }
+                        instanceInit.afterInit($scope.afterInit, button);
                     });
             }
         };
@@ -95,14 +104,12 @@ angular.module('angular-dojo', [])
                 dojoConfig: "=",
                 afterInit: "&"
             },
-            controller: function($scope, $element, $attrs, $transclude){
+            controller: function($scope, $element, $attrs, $transclude, instanceInit){
                 require(["dijit/ProgressBar"], function(ProgressBar){
                     var progressBar = new ProgressBar($scope.dojoConfig).placeAt($element[0]);
                     progressBar.startup();
-                    //run callback method;
-                    if($scope.afterInit()){
-                        angular.bind(progressBar, $scope.afterInit())();
-                    }
+                    //run after init
+                    instanceInit.afterInit($scope.afterInit, progressBar);
                 });
             }
         };
