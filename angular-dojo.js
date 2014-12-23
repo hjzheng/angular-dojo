@@ -20,6 +20,7 @@ angular.module('angular-dojo', []).service('instanceInit', function(){
         //http://dojotoolkit.org/documentation/tutorials/1.10/modules_advanced/
         //http://dojotoolkit.org/reference-guide/1.10/loader/amd.html#loader-amd
         //Use sync way, we need the dialog instance
+        //follow method can not work in chrome and IE
         require({async:false}, ["dijit/Dialog"], function(Dialog){
             dialog = new Dialog(dojoConfig);
         });

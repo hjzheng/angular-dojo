@@ -98,7 +98,7 @@
 
                 $scope.progressBarAfterInit = function(){
                     var i = 0;
-                    var _this = this
+                    var _this = this;
                     setInterval(function(){
                         if(i>100) i=0;
                         _this.set("value", i++ % 100);
