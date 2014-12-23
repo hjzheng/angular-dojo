@@ -2,7 +2,9 @@
  * angular-dojo Module
  */
 
-angular.module('angular-dojo', []).service('instanceInit', function(){
+var angularDojo = angular.module('angular-dojo', []);
+
+angularDojo.service('instanceInit', function(){
     return {
         afterInit: function(afterInit, instance){
             if(afterInit()){
@@ -13,24 +15,26 @@ angular.module('angular-dojo', []).service('instanceInit', function(){
             //TODO
         }
     };
-}).service('dojoDialog', function(){
+});
 
-    var createDialog = function(dojoConfig){
-        var dialog = null;
-        //http://dojotoolkit.org/documentation/tutorials/1.10/modules_advanced/
-        //http://dojotoolkit.org/reference-guide/1.10/loader/amd.html#loader-amd
-        //Use sync way, we need the dialog instance
-        //follow method can not work in chrome and IE
-        require({async:false}, ["dijit/Dialog"], function(Dialog){
+//http://dojotoolkit.org/documentation/tutorials/1.10/modules_advanced/
+//http://dojotoolkit.org/reference-guide/1.10/loader/amd.html#loader-amd
+//Use sync way, we need the dialog instance
+require({async:false}, ["dijit/Dialog"], function(Dialog){
+    angularDojo.service('dojoDialog', function(){
+        var createDialog = function(dojoConfig){
+            var dialog = null;
             dialog = new Dialog(dojoConfig);
-        });
-        return dialog;
-    };
+            return dialog;
+        };
 
-    return {
-        create: createDialog
-    };
-}).directive("dojoParser", function(){
+        return {
+            create: createDialog
+        };
+    });
+});
+
+angularDojo.directive("dojoParser", function(){
     return {
         restrict: 'A',
         scope: false,

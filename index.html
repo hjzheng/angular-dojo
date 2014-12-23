@@ -29,7 +29,7 @@
         Click Me!
         <script type="dojo/on" data-dojo-event="click">
 		        console.log("I was clicked!");
-		</script>
+		    </script>
     </button>
     <select dojo-parser data-dojo-type="dijit/form/ComboBox" name="fruit">
         <option>Apples</option>
@@ -98,7 +98,7 @@
 
                 $scope.progressBarAfterInit = function(){
                     var i = 0;
-                    var _this = this;
+                    var _this = this
                     setInterval(function(){
                         if(i>100) i=0;
                         _this.set("value", i++ % 100);
