@@ -11,19 +11,19 @@ define(['./module', 'dijit/form/Button', 'dojo/parser', 'dijit/form/NumberSpinne
     directives.directive("dojoParser", function(){
         return {
             restrict: 'A',
-            scope: false,
-            controller: function($scope, $element, $attrs, $transclude){
+            scope: {
+                afterInit: "&"
+            },
+            controller: function($scope, $element, $attrs, $transclude, instanceInit){
                 var _this = this;
-                _this.dojoInstances = _this.dojoInstances || [];
                 $element.wrap("<span></span>");
                 var parentNode = $element[0].parentNode;
                 parser.parse(parentNode).then(function(instances){
-                    $(parentNode).children().unwrap();
                     angular.forEach(instances, function(instance){
-                        _this.dojoInstances.push(instance);
+                        instanceInit.afterInit($scope.afterInit, instance);
                     });
+                    $(parentNode).children().unwrap();
                 });
-                $scope.dojoInstances = _this.dojoInstances;
             }
         };
     }).directive('dojoButton', function(){

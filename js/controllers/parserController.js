@@ -4,8 +4,9 @@
  */
 define(['./module'], function (controllers) {
     controllers.controller('parserController', ["$scope", function ($scope) {
-        $scope.click = function(){
-            console.log($scope.dojoInstances);
+        $scope.buttonAfterInit = function(){
+            console.log("run button after init function");
+            this.set('label', 'set on afterinit');
         }
     }]);
 });

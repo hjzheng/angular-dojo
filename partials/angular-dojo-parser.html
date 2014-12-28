@@ -1,15 +1,14 @@
 <h2>dojo parser test</h2>
 <div>
-    <button dojo-parser type="button" data-dojo-type="dijit/form/Button">
+    <button dojo-parser type="button" data-dojo-type="dijit/form/Button" after-init="buttonAfterInit">
         Click Me!
         <script type="dojo/on" data-dojo-event="click">
-		        console.log("I was clicked!");
-		    </script>
+		    console.log("I was clicked!");
+		</script>
     </button>
     <select dojo-parser data-dojo-type="dijit/form/ComboBox" name="fruit">
         <option>Apples</option>
         <option selected>Oranges</option>
         <option>Pears</option>
     </select>
-    <button ng-click="click()">click</button>
 </div>
