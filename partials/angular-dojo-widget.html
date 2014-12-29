@@ -1,0 +1,41 @@
+<h2>dojo widget test</h2>
+<div>
+    <div>
+        <label>dijit/Calendar</label>
+        <div dojo-widget="dijit/Calendar" ng-model="date" ng-change="log(date)"/>
+        Date: {{date}}
+    </div>
+
+    <div>
+        <label>dijit/form/FilteringSelect</label>
+        <select
+                dojo-widget="dijit/form/FilteringSelect"
+                dojo-props="name: 'filterSelect', searchAttr: 'name'"
+                ng-model="selection"
+                dojo-store="store" ng-change="log(selection)"></select>
+        Selection: {{selection}}
+    </div>
+
+
+    <div>
+        <label>dijit/form/Textarea</label>
+        <input dojo-widget="dijit/form/Textarea" ng-model="myTextarea" />
+        TextArea: {{myTextarea}}
+    </div>
+
+
+    <div>
+        <label>dijit/form/DateTextBox</label>
+        <input dojo-widget="dijit/form/DateTextBox" ng-model="dateText" />
+        DateTextBox: {{dateText}}
+    </div>
+
+    <div>
+        <label>dijit/form/TextBox</label>
+        <input type="text" ng-model="myInput"
+               dojo-type="dijit/form/TextBox"
+               dojo-props="trim:true, propercase:true" />
+        Auto-trimming Textbox: __{{myInput}}__
+    </div>
+
+</div>

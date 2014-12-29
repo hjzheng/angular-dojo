@@ -14,6 +14,11 @@ define(['./app'], function (app) {
             controller: 'parserController'
         });
 
+        $routeProvider.when('/widget', {
+            templateUrl: 'partials/angular-dojo-widget.html',
+            controller: 'dojoWidgetController'
+        });
+
         $routeProvider.otherwise({
             redirectTo: '/dijit'
         });

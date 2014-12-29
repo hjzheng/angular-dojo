@@ -4,5 +4,6 @@
  */
 define([
     './dijitController',
-    './parserController'
+    './parserController',
+    './dojoWidgetController'
 ], function () {});

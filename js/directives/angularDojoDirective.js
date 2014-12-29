@@ -4,9 +4,9 @@
  * use dijit widgets
  */
 define(['./module', 'dijit/form/Button', 'dojo/parser', 'dijit/form/NumberSpinner',
-    'dijit/form/DropDownButton', 'dijit/DropDownMenu', 'dijit/MenuItem', 'dijit/ProgressBar'], 
+    'dijit/form/DropDownButton', 'dijit/DropDownMenu', 'dijit/MenuItem', 'dijit/ProgressBar', 'jquery'],
     function (directives, Button, parser, NumberSpinner, 
-        DropDownButton, DropDownMenu, MenuItem, ProgressBar) {
+        DropDownButton, DropDownMenu, MenuItem, ProgressBar, jQuery) {
     
     directives.directive("dojoParser", function(){
         return {
@@ -22,7 +22,7 @@ define(['./module', 'dijit/form/Button', 'dojo/parser', 'dijit/form/NumberSpinne
                     angular.forEach(instances, function(instance){
                         instanceInit.afterInit($scope.afterInit, instance);
                     });
-                    $(parentNode).children().unwrap();
+                    jQuery(parentNode).children().unwrap();
                 });
             }
         };
@@ -97,6 +97,86 @@ define(['./module', 'dijit/form/Button', 'dojo/parser', 'dijit/form/NumberSpinne
                 instanceInit.afterInit($scope.afterInit, progressBar);
             }
         };
+    }).directive('dojoWidget', function ($timeout, $filter) {
+        //refer to https://github.com/adrobisch/angular-dojo
+        var parseProps = function (props) {
+            if (typeof props === 'undefined') {
+               return {};
+            } else {
+               props = '[{' + props + '}]';
+               return eval(props)[0];
+            }
+        }
+
+        return {
+            restrict: "A",
+            replace: false,
+            transclude: false,
+            require: '?ngModel',
+            scope: {
+                'ngModel': '=?',
+                'ngClick': '&',
+                'ngChange': '&',
+                'dojoStore': '&',
+                'dojoProps': '@'
+            },
+            link: function(scope, element, attrs) {
+                require([attrs.dojoWidget, "dojo/on"], function(DojoWidget, on){
+                    scope.widget = new DojoWidget({}, element[0]);
+
+                    attrs.$observe('dojoProps', function(){
+                        scope.widget.set(parseProps(scope.dojoProps));
+                    });
+
+                    attrs.$observe('dojoStore', function() {
+                        if (typeof scope.dojoStore != 'undefined') {
+                            scope.widget.store = scope.dojoStore();
+                        }
+                    });
+
+                    scope.$watch('ngModel', function() {
+                        if (scope.ngModel != undefined) {
+                            if (attrs.dojoWidget == 'dijit/form/FilteringSelect' || attrs.dojoWidget == 'dijit/form/Select') {
+                                scope.widget.set('item', scope.ngModel);
+                            } else if(attrs.dojoWidget == 'dijit/form/DateTextBox'){
+                                //the value for DataTextBox is JS Date Object
+                                scope.widget.set('value', new Date($filter('date')(scope.ngModel, 'fullDate')));
+                            } else {
+                                scope.widget.set('value', scope.ngModel);
+                            }
+                        }
+                    });
+
+                    on(scope.widget, "change", function(newValue) {
+                        if (attrs.dojoWidget == 'dijit/form/FilteringSelect' || attrs.dojoWidget == 'dijit/form/Select') {
+                            scope.ngModel = this.item;
+                        } else if(attrs.dojoWidget == 'dijit/Calendar' || attrs.dojoWidget == 'dijit/form/DateTextBox'){
+                            //date format problems
+                            scope.ngModel = $filter('date')(newValue, 'yyyy/MM/dd');
+                        } else {
+                            scope.ngModel = newValue;
+                        }
+
+                        $timeout(function() {
+                            scope.$apply();
+                            if (scope.ngChange != undefined) {
+                                scope.ngChange();
+                            }
+                        });
+                    });
+
+                    on(scope.widget, 'click', function() {
+                        $timeout(function() {
+                            scope.$apply();
+                            if (scope.ngClick != undefined) {
+                                scope.ngClick();
+                            }
+                        });
+                    });
+
+                });
+            }
+        }
     });
 
 });
