@@ -33,9 +33,16 @@
     <div>
         <label>dijit/form/TextBox</label>
         <input type="text" ng-model="myInput"
-               dojo-type="dijit/form/TextBox"
+               dojo-widget="dijit/form/TextBox"
                dojo-props="trim:true, propercase:true" />
         Auto-trimming Textbox: __{{myInput}}__
+    </div>
+
+    <div>
+        <label>dijit/form/Button</label>
+        <button dojo-widget="dijit/form/Button"
+                dojo-props="label: 'Click me!'"
+        ng-click="buttonClick()"></button>
     </div>
 
 </div>

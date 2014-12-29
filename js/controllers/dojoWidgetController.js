@@ -28,5 +28,9 @@ define(['./module', 'dojo/store/Memory'],
         $scope.log = function(msg) {
             console.log(msg);
         };
+
+        $scope.buttonClick = function(){
+            console.log("button click");
+        }
     }]);
 });
