@@ -4,10 +4,6 @@
  */
 define(['./app'], function (app) {
     return app.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/dijit', {
-            templateUrl: 'partials/angular-dojo-dijit.html',
-            controller: 'dijitController'
-        });
 
         $routeProvider.when('/parser', {
             templateUrl: 'partials/angular-dojo-parser.html',
@@ -20,7 +16,7 @@ define(['./app'], function (app) {
         });
 
         $routeProvider.otherwise({
-            redirectTo: '/dijit'
+            redirectTo: '/widget'
         });
     }]);
 });

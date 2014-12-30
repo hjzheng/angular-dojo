@@ -3,7 +3,6 @@
  * This file load all the controllers
  */
 define([
-    './dijitController',
     './parserController',
     './dojoWidgetController'
 ], function () {});
